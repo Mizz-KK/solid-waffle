@@ -15,6 +15,8 @@ jobs:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          submodules: true # Ensures submodules are retrieved if present
 
       # Set up Node.js
       - name: Set up Node.js
@@ -23,9 +25,15 @@ jobs:
           node-version: 16
           cache: 'npm'
 
+      # Add debugging: List files before installing dependencies
+      - name: List files
+        run: ls -la
+
       # Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm cache clean --force # Clears npm cache to avoid stale data
+          npm install
 
       # Run tests
       - name: Run tests
