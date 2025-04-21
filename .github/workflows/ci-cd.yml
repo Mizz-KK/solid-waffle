@@ -25,9 +25,21 @@ jobs:
           node-version: 16
           cache: 'npm'
 
+      # Add debugging: Print environment variables
+      - name: Debug Environment
+        run: env
+
       # Add debugging: List files before installing dependencies
       - name: List files
         run: ls -la
+
+      # Check for package-lock.json
+      - name: Check for package-lock.json
+        run: |
+          if [ ! -f package-lock.json ]; then
+            echo "Error: package-lock.json is missing!"
+            exit 1
+          fi
 
       # Install dependencies
       - name: Install dependencies
@@ -51,5 +63,8 @@ jobs:
 
       # Deploy step (replace with actual deployment commands)
       - name: Deploy to Production
-        run: echo "Your application has been deployed!"
+        run: |
+          echo "Deploying application..."
+          # Replace with actual deployment commands
+          npm run deploy
 
