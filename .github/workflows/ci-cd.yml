@@ -33,6 +33,12 @@ jobs:
       - name: List files
         run: ls -la
 
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          npm cache clean --force # Clears npm cache to avoid stale data
+          npm install
+
       # Check for package-lock.json
       - name: Check for package-lock.json
         run: |
@@ -40,12 +46,6 @@ jobs:
             echo "Error: package-lock.json is missing!"
             exit 1
           fi
-
-      # Install dependencies
-      - name: Install dependencies
-        run: |
-          npm cache clean --force # Clears npm cache to avoid stale data
-          npm install
 
       # Run tests
       - name: Run tests
