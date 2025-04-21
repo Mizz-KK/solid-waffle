@@ -2,42 +2,46 @@ name: CI/CD Pipeline
 
 # Trigger the workflow on push to the 'main' branch
 on:
-    push:
-        branches:
-            -main
+  push:
+    branches:
+      - main
 
 # Define the jobs in the workflow
 jobs:
-    build-and-test:
-        runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: ubuntu-latest
 
-        steps:
-            # Checkout the repository code
-            - name: Checkout code
-              uses: actions/checkout@v3
-            
-            # Set up Node.js
-            - name: Set up Node.js
-              uses: actions/setup-node@v3
-              with:
-                node-version: 16
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-            # Install dependencies
-            - name: Install dependencies
-              run: npm install
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
 
-            # Run tests
-            - name: Run tests
-              run: npm test
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
 
-        deploy:
-            # The deploy job depends on the build-and-test job
-            needs: build-and-test
-            runs-on: ubuntu-latest
+      # Run tests
+      - name: Run tests
+        run: npm test
 
-            steps:
-                # Deploy step (this is a placeholder)
-                - name: Deploy to Production
-                  run: echo "Your application has been deployed!"
-                
-                
+  deploy:
+    # The deploy job depends on the build-and-test job
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Deploy step (replace with actual deployment commands)
+      - name: Deploy to Production
+        run: echo "Your application has been deployed!"
+
